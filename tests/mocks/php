@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Example mock only. Do not use as a production PHP binary.
+case "${1:-}" in
+  -v|--version)
+    echo "PHP 8.3.0 (mock test runtime)"
+    ;;
+  -m)
+    if [[ "${TEST_REDIS_LOADED:-false}" == "true" ]]; then
+      printf 'Core\nstandard\nredis\n'
+    else
+      printf 'Core\nstandard\n'
+    fi
+    ;;
+  --ri)
+    if [[ "${2:-}" == "redis" && "${TEST_REDIS_LOADED:-false}" == "true" ]]; then
+      echo "Redis Support => enabled (mock)"
+    else
+      echo "Extension 'redis' not present."
+      exit 1
+    fi
+    ;;
+  -r)
+    # Minimal behavior for simple version / extension probes.
+    case "${2:-}" in
+      *PHP_MAJOR_VERSION*PHP_MINOR_VERSION*) echo "${TEST_PHP_VERSION:-8.3}" ;;
+      *extension_loaded*redis*)
+        [[ "${TEST_REDIS_LOADED:-false}" == "true" ]] && echo "Redis extension is working properly" || exit 1
+        ;;
+      *ini_get*extension_dir*) echo "/usr/lib64/php/modules" ;;
+      *class_exists*Redis*) [[ "${TEST_REDIS_LOADED:-false}" == "true" ]] && echo "Redis class is available" || echo "Redis class not available" ;;
+      *) echo "Mock PHP: unhandled -r expression" >&2; exit 2 ;;
+    esac
+    ;;
+  --ini)
+    echo "Configuration File (php.ini) Path: /etc"
+    echo "Loaded Configuration File: /etc/php.ini"
+    echo "Scan for additional .ini files in: /etc/php.d"
+    ;;
+  *)
+    echo "Mock PHP received unsupported arguments: $*" >&2
+    exit 2
+    ;;
+esac

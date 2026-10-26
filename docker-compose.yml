@@ -1,0 +1,23 @@
+services:
+  eb-php84:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    container_name: eb-php84-simulation
+    working_dir: /workspace
+    environment:
+      TEST_PLATFORM: eb-php84-al2023-4.13.13
+      TEST_PHP_VERSION: "8.4"
+    volumes:
+      - ./:/workspace
+      - phpredis-php-config:/etc/php.d
+    command: ["bash", "-lc", "sleep infinity"]
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  phpredis-php-config:

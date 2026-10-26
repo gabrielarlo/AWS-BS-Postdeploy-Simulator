@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[MOCK sudo] $*" >&2
+exit 0

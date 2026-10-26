@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[MOCK dnf] $*" >&2
+exit "${MOCK_DNF_EXIT_CODE:-0}"

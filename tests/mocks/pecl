@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[MOCK pecl] $*" >&2
+exit "${MOCK_PECL_EXIT_CODE:-0}"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[MOCK yum] $*" >&2
+exit "${MOCK_YUM_EXIT_CODE:-0}"

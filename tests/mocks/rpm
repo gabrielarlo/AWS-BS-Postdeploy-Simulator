@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[MOCK rpm] $*" >&2
+exit "${MOCK_RPM_EXIT_CODE:-1}"
